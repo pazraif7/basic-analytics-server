@@ -28,7 +28,6 @@ class TestEventProcessing(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["message"], "Event processed successfully.")
 
-        # Verify the event is in the database
         connection = sqlite3.connect('analytics.db')
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM events WHERE userid = ? AND eventname = ?', ("user123", "login"))
