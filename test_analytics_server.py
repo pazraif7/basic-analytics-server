@@ -7,7 +7,6 @@ class TestEventProcessing(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Initialize the database before running tests
         init_db()
 
     def setUp(self):
