@@ -6,7 +6,7 @@ import uvicorn
 app = FastAPI()
 
 def init_db() -> None:
-    connection = sqlite3.connect('analytics.db')
+    connection = sqlite3.connect('/app/analytics.db')
     cursor = connection.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS events (
@@ -18,6 +18,7 @@ def init_db() -> None:
     connection.commit()
     connection.close()
 
+init_db()
 
 @app.post("/process_event")
 async def process_event_endpoint(request: Request):
@@ -32,7 +33,7 @@ async def process_event_endpoint(request: Request):
 
         event_timestamp: str = datetime.now(timezone.utc).isoformat()
 
-        connection = sqlite3.connect('analytics.db')
+        connection = sqlite3.connect('/app/analytics.db')
         cursor = connection.cursor()
         cursor.execute('''
             INSERT INTO events (eventtimestamputc, userid, eventname)
@@ -66,7 +67,7 @@ async def get_reports(request: Request):
         now = datetime.now(timezone.utc)
         cutoff_time = now - timedelta(seconds=lastseconds)
 
-        connection = sqlite3.connect('analytics.db')
+        connection = sqlite3.connect('/app/analytics.db')
         cursor = connection.cursor()
         cursor.execute('''
             SELECT eventtimestamputc, userid, eventname FROM events 
@@ -87,5 +88,4 @@ async def get_reports(request: Request):
         raise HTTPException(status_code=500, detail="Internal server error.")
 
 if __name__ == "__main__":
-    init_db()
     uvicorn.run(app, host="127.0.0.1", port=8000)
