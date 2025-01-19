@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug Secrets
+        run: |
+          echo "ACR Username: ${{ secrets.AZURE_ACR_USERNAME }}"
+          echo "ACR Password: ***"
+
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
