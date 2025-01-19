@@ -1,4 +1,4 @@
-name: build-and-deploy
+name: Build and Deploy to Azure
 
 on:
   push:
@@ -8,8 +8,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # Checkout code
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -27,10 +28,10 @@ jobs:
           username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
           password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
-      # Build and Push Docker Image
+      # Build and Push Docker image to ACR
       - name: Build and Push Docker Image to ACR
         run: |
-          docker build -t pazmichael.azurecr.io/fastapi-analytics-app:latest .
+          docker build . -t pazmichael.azurecr.io/fastapi-analytics-app:latest
           docker push pazmichael.azurecr.io/fastapi-analytics-app:latest
 
       # Deploy to Azure Web App
