@@ -10,7 +10,6 @@ class TestEventProcessing(unittest.TestCase):
         init_db()
 
     def setUp(self):
-        # Clear the database before each test
         connection = sqlite3.connect('analytics.db')
         cursor = connection.cursor()
         cursor.execute('DELETE FROM events')
